@@ -13,7 +13,23 @@ export class EditUserComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private editService: EditService) {}
 
-  ngOnInit(){}
+  ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      this.userId = +params['id']; 
+      this.editService.getById(this.userId).subscribe(response => {
+        this.user = response;
+        console.log(this.user); 
+      }, (error) => {
+        console.error('Error fetching user', error);
+      });
+    });
+  }
 
-  
+  saveChanges() {
+    this.editService.editId(this.userId, this.user).subscribe(response => {
+      console.log('User updated successfully');
+    }, (error) => {
+      console.error('Error updating user', error);
+    });
+  }
 }

@@ -25,6 +25,17 @@ export class ApiService {
 return this.http.delete(`${this.url}/${Id}`);
   }
 
+
+
+
+
+
+
+
+
+
+
+  
   private getHeader() {
     return {
       headers: new HttpHeaders({
