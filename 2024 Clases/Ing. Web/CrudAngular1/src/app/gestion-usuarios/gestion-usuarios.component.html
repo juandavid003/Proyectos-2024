@@ -1,0 +1,42 @@
+<p>Gestión de Usuarios</p>
+
+<!-- Formulario para agregar un nuevo usuario -->
+<form (ngSubmit)="ClickCreateNewUser()" #userForm="ngForm">
+  <div>
+    <label for="username">Username:</label>
+    <input type="text" id="username" [(ngModel)]="NewUser.username" name="username" required>
+  </div>
+  <div>
+    <label for="mail">Email:</label>
+    <input type="email" id="mail" [(ngModel)]="NewUser.mail" name="mail" required>
+  </div>
+  <div>
+    <label for="password">Password:</label>
+    <input type="password" id="password" [(ngModel)]="NewUser.password" name="password" required>
+  </div>
+  <div>
+    <label for="completeName">Nombre Completo:</label>
+    <input type="text" id="completeName" [(ngModel)]="NewUser.completeName" name="completeName" required>
+  </div>
+  <div>
+    <label for="startDate">Fecha de Inicio:</label>
+    <input type="date" id="startDate" [(ngModel)]="NewUser.startDate" name="startDate" required>
+  </div>
+  <div>
+    <label for="state">Estado:</label>
+    <select [(ngModel)]="NewUser.state" name="state">
+      <option value="ACTIVE">Activo</option>
+      <option value="INACTIVE">Inactivo</option>
+    </select>
+  </div>
+    <div>
+    <label for="state">Rol:</label>
+    <select [(ngModel)]="NewUser.rol" name="rol">
+      <option value="usuario">Usuario</option>
+      <option value="admin">Admin</option>
+    </select>
+  </div>
+
+
+  <button type="submit">Agregar Usuario</button>
+</form>

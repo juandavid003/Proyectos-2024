@@ -1,0 +1,34 @@
+<ng-container *ngIf="!isEditUserPage() && !isCreateUserPage(); else userTemplate">
+  <div class="app-container">  
+    <h2>Gestión de Usuarios</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Role</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.UserName }}</td>
+          <td>{{ user.Mail }}</td>
+          <td>{{ user.State }}</td>
+          <td>{{ user.Rol }}</td>
+          <td>
+            <button (click)="editUser(user.Id)">Editar</button>
+            <button (click)="deleteUser(user.Id, user.UserName)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button (click)="createUser()">Agregar Usuario</button>
+  </div>
+</ng-container>
+
+<!-- Template para manejar la visualización de usuario o la creación -->
+<ng-template #userTemplate>
+  <router-outlet></router-outlet>
+</ng-template>

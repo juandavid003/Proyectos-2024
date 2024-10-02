@@ -1,0 +1,28 @@
+<div>
+    <form (ngSubmit)="saveChanges()">
+      <div>
+        <label for="username">Username:</label>
+        <input [(ngModel)]="user.UserName" name="UserName" required />
+      </div>
+      <div>
+        <label for="email">Email:</label>
+        <input [(ngModel)]="user.Mail" name="Mail" required />
+      </div>
+      <div>
+        <label for="state">Estado:</label>
+        <select [(ngModel)]="user.State" name="State">
+          <option value="ACTIVE">Activo</option>
+          <option value="INACTIVE">Inactivo</option>
+        </select>
+      </div>
+      <div>
+        <label for="state">Rol:</label>
+        <select [(ngModel)]="user.Rol" name="Rol">
+          <option value="usuario">Usuario</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      <button type="submit">Guardar Cambios</button>
+    </form>
+  </div>
+  
