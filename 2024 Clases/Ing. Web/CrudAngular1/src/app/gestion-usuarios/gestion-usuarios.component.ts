@@ -5,7 +5,7 @@ import { GestionService } from './gestion.service';
 @Component({
   selector: 'app-gestion-usuarios',
   templateUrl: './gestion-usuarios.component.html',
-  styleUrls: ['./gestion-usuarios.component.css'] // Cambia "styleUrl" a "styleUrls"
+  styleUrls: ['./gestion-usuarios.component.css'] 
 })
 export class GestionUsuariosComponent {
   NewUser = { 
@@ -20,7 +20,28 @@ export class GestionUsuariosComponent {
 
   constructor(private route: ActivatedRoute, private service: GestionService) {}
 
- 
+  ClickCreateNewUser() {
+    if (this.NewUser.username && this.NewUser.mail && this.NewUser.password && this.NewUser.completeName && this.NewUser.startDate) {
+      this.service.CreatUser(this.NewUser).subscribe(response => {
+        alert(`Usuario ${this.NewUser.username} creado`);
+        this.resetForm();
+      }, error => {
+        console.error('Error al crear el usuario', error);
+      });
+    } else {
+      alert('Por favor, completa todos los campos obligatorios.');
+    }
+  }
 
- 
+  resetForm() {
+    this.NewUser = { 
+      username: '',
+      mail: '',
+      password: '',
+      completeName: '',
+      startDate: '',
+      state: '',
+      rol: ''
+    };
+  }
 }
