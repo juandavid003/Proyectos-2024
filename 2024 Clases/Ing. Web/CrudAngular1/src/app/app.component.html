@@ -1,7 +1,11 @@
-<ng-container *ngIf="!isEditUserPage() && !isCreateUserPage(); else userTemplate">
-  <div class="app-container">  
-    <h2>Gestión de Usuarios</h2>
-    <table>
+<ng-container *ngIf="!isEditUserPage() && !isCreateUserPage() && !isLogInPage(); else userTemplate">
+  <div class="app-container" *ngIf="isLoggedIn; else notLoggedIn">  
+    <div class="header">
+      <h2>Gestión de Usuarios</h2>
+      <button (click)="logout()" class="logout-button">Cerrar Sesión</button>
+    </div>
+    
+    <table class="user-table">
       <thead>
         <tr>
           <th>Username</th>
@@ -18,14 +22,19 @@
           <td>{{ user.State }}</td>
           <td>{{ user.Rol }}</td>
           <td>
-            <button (click)="editUser(user.Id)">Editar</button>
-            <button (click)="deleteUser(user.Id, user.UserName)">Eliminar</button>
+            <button (click)="editUser(user.Id)" class="action-button edit-button">Editar</button>
+            <button (click)="deleteUser(user.Id, user.UserName)" class="action-button delete-button">Eliminar</button>
           </td>
         </tr>
       </tbody>
     </table>
-    <button (click)="createUser()">Agregar Usuario</button>
+    <button (click)="createUser()" class="add-button">Agregar Usuario</button>
   </div>
+  
+  <ng-template #notLoggedIn>
+    <h2>Debes iniciar sesión para ver esta página</h2>
+    <a [routerLink]="['/login']">Iniciar Sesión</a>
+  </ng-template>
 </ng-container>
 
 <!-- Template para manejar la visualización de usuario o la creación -->

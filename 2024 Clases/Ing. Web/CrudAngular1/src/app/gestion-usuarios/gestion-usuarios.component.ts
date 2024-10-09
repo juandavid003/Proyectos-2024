@@ -18,7 +18,16 @@ export class GestionUsuariosComponent {
     rol: ''
   };
 
-  constructor(private route: ActivatedRoute, private service: GestionService) {}
+  isLoggedIn: boolean = false; // Agrega esta línea
+
+  constructor(private route: ActivatedRoute, private service: GestionService) {
+    this.checkLoginStatus(); // Verificar el estado de inicio de sesión
+  }
+
+  checkLoginStatus() {
+    const userData = localStorage.getItem('userData');
+    this.isLoggedIn = !!userData; // Actualiza isLoggedIn según la presencia de userData
+  }
 
   ClickCreateNewUser() {
     if (this.NewUser.username && this.NewUser.mail && this.NewUser.password && this.NewUser.completeName && this.NewUser.startDate) {

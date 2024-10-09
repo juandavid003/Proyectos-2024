@@ -1,42 +1,89 @@
-<p>Gestión de Usuarios</p>
+<p class="section-title">Gestión de Usuarios</p>
+
+<!-- Mostrar mensaje si no está logueado -->
+<div *ngIf="!isLoggedIn" class="alert alert-warning">
+  <p>No tienes permiso para ver esta página. Por favor, inicia sesión.</p>
+</div>
 
 <!-- Formulario para agregar un nuevo usuario -->
-<form (ngSubmit)="ClickCreateNewUser()" #userForm="ngForm">
-  <div>
-    <label for="username">Username:</label>
-    <input type="text" id="username" [(ngModel)]="NewUser.username" name="username" required>
-  </div>
-  <div>
-    <label for="mail">Email:</label>
-    <input type="email" id="mail" [(ngModel)]="NewUser.mail" name="mail" required>
-  </div>
-  <div>
-    <label for="password">Password:</label>
-    <input type="password" id="password" [(ngModel)]="NewUser.password" name="password" required>
-  </div>
-  <div>
-    <label for="completeName">Nombre Completo:</label>
-    <input type="text" id="completeName" [(ngModel)]="NewUser.completeName" name="completeName" required>
-  </div>
-  <div>
-    <label for="startDate">Fecha de Inicio:</label>
-    <input type="date" id="startDate" [(ngModel)]="NewUser.startDate" name="startDate" required>
-  </div>
-  <div>
-    <label for="state">Estado:</label>
-    <select [(ngModel)]="NewUser.state" name="state">
-      <option value="ACTIVE">Activo</option>
-      <option value="INACTIVE">Inactivo</option>
-    </select>
-  </div>
-    <div>
-    <label for="state">Rol:</label>
-    <select [(ngModel)]="NewUser.rol" name="rol">
-      <option value="usuario">Usuario</option>
-      <option value="admin">Admin</option>
-    </select>
-  </div>
+<div *ngIf="isLoggedIn" class="user-form-container">
+  <form (ngSubmit)="ClickCreateNewUser()" #userForm="ngForm">
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <input
+        type="text"
+        id="username"
+        [(ngModel)]="NewUser.username"
+        name="username"
+        required
+        class="form-control"
+      />
+    </div>
 
+    <div class="form-group">
+      <label for="mail">Email:</label>
+      <input
+        type="email"
+        id="mail"
+        [(ngModel)]="NewUser.mail"
+        name="mail"
+        required
+        class="form-control"
+      />
+    </div>
 
-  <button type="submit">Agregar Usuario</button>
-</form>
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input
+        type="password"
+        id="password"
+        [(ngModel)]="NewUser.password"
+        name="password"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="completeName">Nombre Completo:</label>
+      <input
+        type="text"
+        id="completeName"
+        [(ngModel)]="NewUser.completeName"
+        name="completeName"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="startDate">Fecha de Inicio:</label>
+      <input
+        type="date"
+        id="startDate"
+        [(ngModel)]="NewUser.startDate"
+        name="startDate"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="state">Estado:</label>
+      <select [(ngModel)]="NewUser.state" name="state" class="form-control">
+        <option value="ACTIVE">Activo</option>
+        <option value="INACTIVE">Inactivo</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="rol">Rol:</label>
+      <select [(ngModel)]="NewUser.rol" name="rol" class="form-control">
+        <option value="usuario">Usuario</option>
+        <option value="admin">Admin</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Agregar Usuario</button>
+  </form>
+</div>

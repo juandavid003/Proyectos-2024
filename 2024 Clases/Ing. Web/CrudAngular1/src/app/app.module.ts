@@ -7,13 +7,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { GestionUsuariosComponent } from './gestion-usuarios/gestion-usuarios.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { FormsModule } from '@angular/forms';
-
-
+import { LogInComponent } from './log-in/log-in.component';
 @NgModule({
   declarations: [
     AppComponent,
     GestionUsuariosComponent,
-    EditUserComponent
+    EditUserComponent,
+    LogInComponent,
   ],
   imports: [
     BrowserModule,

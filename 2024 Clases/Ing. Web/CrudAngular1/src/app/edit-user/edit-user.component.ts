@@ -10,6 +10,7 @@ import { EditService } from './edit.service';
 export class EditUserComponent implements OnInit {
   userId: number = 0;
   user: any = {};
+  isLoggedIn: boolean = false;
 
   constructor(private route: ActivatedRoute, private editService: EditService) {}
 
@@ -23,6 +24,12 @@ export class EditUserComponent implements OnInit {
         console.error('Error fetching user', error);
       });
     });
+    this.checkLoginStatus(); // Verificar el estado de inicio de sesión
+  }
+
+  checkLoginStatus() {
+    const userData = localStorage.getItem('userData');
+    this.isLoggedIn = !!userData; // Actualiza isLoggedIn según la presencia de userData
   }
 
   saveChanges() {
