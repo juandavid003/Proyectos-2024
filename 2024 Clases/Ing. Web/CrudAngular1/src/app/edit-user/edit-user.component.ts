@@ -24,12 +24,12 @@ export class EditUserComponent implements OnInit {
         console.error('Error fetching user', error);
       });
     });
-    this.checkLoginStatus(); // Verificar el estado de inicio de sesión
+    this.checkLoginStatus(); 
   }
 
   checkLoginStatus() {
     const userData = localStorage.getItem('userData');
-    this.isLoggedIn = !!userData; // Actualiza isLoggedIn según la presencia de userData
+    this.isLoggedIn = !!userData;
   }
 
   saveChanges() {

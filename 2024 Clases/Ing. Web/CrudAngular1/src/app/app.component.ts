@@ -37,10 +37,6 @@ export class AppComponent {
     this.checkLoginStatus(); 
   }
 
-  checkLoginStatus() {
-    const userData = localStorage.getItem('userData');
-    this.isLoggedIn = !!userData; 
-  }
 
   editUser(Id: number) {
     console.log(`Navigating to edit user with ID: ${Id}`);
@@ -61,10 +57,15 @@ export class AppComponent {
     this.router.navigate(['/createUser']);  
   }
 
+  checkLoginStatus() {
+    const userData = localStorage.getItem('userData');
+    this.isLoggedIn = !!userData; 
+  }
+  
   logout() {
-    localStorage.removeItem('userData'); // Elimina los datos de sesión
-    this.isLoggedIn = false; // Actualiza el estado de inicio de sesión
-    this.router.navigate(['/login']); // Redirige al usuario a la página de inicio de sesión
+    localStorage.removeItem('userData');
+    this.isLoggedIn = false; 
+    this.router.navigate(['/login']); 
   }
   
 }

@@ -12,10 +12,10 @@ export class AuthGuard implements CanActivate {
     const userData = localStorage.getItem('userData');
     
     if (userData) {
-      return true; // El usuario está autenticado
+      return true;
     } else {
-      this.router.navigate(['/login']); // Redirige al login si no está autenticado
-      return false; // El usuario no está autenticado
+      this.router.navigate(['/login']); 
+      return false; 
     }
   }
 }

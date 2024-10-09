@@ -1,4 +1,3 @@
-/* Título de la sección */
 .section-title {
     font-size: 24px;
     font-weight: bold;
@@ -7,7 +6,6 @@
     text-align: center;
   }
   
-  /* Contenedor del formulario */
   .user-form-container {
     background-color: #fff;
     padding: 20px;
@@ -17,7 +15,6 @@
     margin: 0 auto;
   }
   
-  /* Estilos generales del formulario */
   .form-group {
     margin-bottom: 15px;
   }
@@ -42,7 +39,6 @@
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
   }
   
-  /* Estilo para alertas */
   .alert {
     color: #856404;
     background-color: #fff3cd;
@@ -53,7 +49,6 @@
     text-align: center;
   }
   
-  /* Botón primario */
   button.btn-primary {
     width: 100%;
     padding: 12px;

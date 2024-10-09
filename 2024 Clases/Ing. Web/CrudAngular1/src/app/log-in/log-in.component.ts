@@ -35,7 +35,6 @@ export class LogInComponent {
       password: this.user.password
     };
   
-    // Verificar si el usuario y contraseña coinciden en la base de datos
     const foundUser = this.users.find(
       (user: UserLogInModel) =>
         user.UserName == userData.username &&
@@ -44,10 +43,11 @@ export class LogInComponent {
         user.State == "ACTIVE"
     );
   
-    // Si se encuentra el usuario, guardar en localStorage
     if (foundUser) {
       localStorage.setItem('userData', JSON.stringify(userData));
-      this.router.navigateByUrl('/');
+      this.router.navigateByUrl('/').then(() => {
+        window.location.reload();
+      });
     } else {
       console.log('Usuario o contraseña incorrectos');
     }

@@ -1,11 +1,9 @@
 <p class="section-title">Gestión de Usuarios</p>
 
-<!-- Mostrar mensaje si no está logueado -->
 <div *ngIf="!isLoggedIn" class="alert alert-warning">
   <p>No tienes permiso para ver esta página. Por favor, inicia sesión.</p>
 </div>
 
-<!-- Formulario para agregar un nuevo usuario -->
 <div *ngIf="isLoggedIn" class="user-form-container">
   <form (ngSubmit)="ClickCreateNewUser()" #userForm="ngForm">
     <div class="form-group">
