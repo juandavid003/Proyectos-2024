@@ -10,8 +10,8 @@ export class ApiService {
   // private url = 'https://localhost:44372/api/login/'
   // private taskUrl = 'https://localhost:44372/api/task/'
 
-   private url = 'http://ec2-3-131-162-56.us-east-2.compute.amazonaws.com/api/api/login'
-  private taskUrl = 'http://ec2-3-131-162-56.us-east-2.compute.amazonaws.com/api/api/task'
+   private url = 'http://ec2-3-131-162-56.us-east-2.compute.amazonaws.com/api/api/login/'
+  private taskUrl = 'http://ec2-3-131-162-56.us-east-2.compute.amazonaws.com/api/api/task/'
 
 
   constructor(private http: HttpClient) { }

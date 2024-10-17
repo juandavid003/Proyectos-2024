@@ -29,6 +29,7 @@ export class CreateTaskComponent {
   }
 
   ClickCreateNewTask() {
+    console.log(this.NewTask)
     if (this.NewTask.taskname && this.NewTask.start_date && this.NewTask.estimated_time && this.NewTask.employee && this.NewTask.project) {
       this.service.CreatTask(this.NewTask).subscribe(response => {
         alert(`Tarea ${this.NewTask.taskname} creada`);
