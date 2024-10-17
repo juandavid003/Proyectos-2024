@@ -1,0 +1,70 @@
+<div *ngIf="isLoggedIn" class="edit-form-container">
+    <form (ngSubmit)="saveChanges()">
+      <!-- Campo para el nombre de la tarea -->
+      <div class="form-group">
+        <label for="taskname">Nombre de la tarea:</label>
+        <input
+          [(ngModel)]="task.taskname"
+          name="taskname"
+          required
+          class="form-control"
+        />
+      </div>
+  
+      <!-- Campo para seleccionar la fecha de inicio -->
+      <div class="form-group">
+        <label for="start_date">Fecha de inicio:</label>
+        <input
+          type="date"
+          id="start_date"
+          [(ngModel)]="task.start_date"
+          name="start_date"
+          required
+          class="form-control"
+        />
+      </div>
+  
+      <!-- Campo para el tiempo estimado -->
+      <div class="form-group">
+        <label for="estimated_time">Tiempo estimado (hh:mm:ss):</label>
+        <input
+          type="time"
+          id="estimated_time"
+          [(ngModel)]="task.estimated_time"
+          name="estimated_time"
+          required
+          class="form-control"
+        />
+      </div>
+  
+      <!-- Campo para asignar el empleado -->
+      <div class="form-group">
+        <label for="employee">Empleado asignado:</label>
+        <input
+          [(ngModel)]="task.employee"
+          name="employee"
+          required
+          class="form-control"
+        />
+      </div>
+  
+      <!-- Campo para seleccionar el proyecto -->
+      <div class="form-group">
+        <label for="project">Proyecto:</label>
+        <input
+          [(ngModel)]="task.project"
+          name="project"
+          required
+          class="form-control"
+        />
+      </div>
+  
+      <!-- Botón para guardar los cambios -->
+      <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    </form>
+  </div>
+  
+  <div *ngIf="!isLoggedIn" class="alert alert-warning">
+    <p>No tienes permiso para ver esta página. Por favor, inicia sesión.</p>
+  </div>
+  

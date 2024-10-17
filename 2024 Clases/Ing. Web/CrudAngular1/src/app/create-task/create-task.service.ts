@@ -5,22 +5,19 @@ import { catchError, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class EditService {
+export class CreateTaskService {
 
-  // private url = 'https://localhost:44372/api/login/'
-
-  
+  // private url = 'https://localhost:44372/api/task/'
   private url = 'http://ec2-3-131-162-56.us-east-2.compute.amazonaws.com/api/api/login'
   constructor(private http: HttpClient) { }
 
-  getById(Id: number) {
-    return this.http.get(`${this.url}/${Id}`);
-  }
+  
+ 
 
 
 
-  editId(Id: number, updatedUser: any) {
-    return this.http.put(`${this.url}/${Id}`, updatedUser);
+  CreatTask(updatedTask: any) {
+    return this.http.post(`${this.url}`, updatedTask);
   }
 
 

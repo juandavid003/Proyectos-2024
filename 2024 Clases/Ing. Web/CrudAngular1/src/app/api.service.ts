@@ -7,7 +7,13 @@ import { catchError, Observable } from 'rxjs';
 })
 export class ApiService {
 
-  private url = 'https://localhost:44372/api/login/'
+  // private url = 'https://localhost:44372/api/login/'
+  // private taskUrl = 'https://localhost:44372/api/task/'
+
+   private url = 'http://ec2-3-131-162-56.us-east-2.compute.amazonaws.com/api/api/login'
+  private taskUrl = 'http://ec2-3-131-162-56.us-east-2.compute.amazonaws.com/api/api/task'
+
+
   constructor(private http: HttpClient) { }
 
   getPosts() {
@@ -16,14 +22,33 @@ export class ApiService {
     );
   }
 
+  getTasks() {
+    return this.http.get(this.taskUrl, this.getHeader()).pipe(
+      catchError(this.handleError('get' + this.taskUrl, []))
+    );
+  }
+
+  searchTasksByDate(startDate: string, endDate: string): Observable<any[]> {
+    const url = `${this.taskUrl}searchByDate?startDate=${startDate}&endDate=${endDate}`;
+    return this.http.get<any[]>(url).pipe(
+      catchError(this.handleError('searchTasksByDate', []))
+    );
+  }
+
+
+  
 
   editId(Id: number, updatedUser: any) {
     return this.http.put(`${this.url}/${Id}`, updatedUser);
   }
 
   delete(Id: number){
-return this.http.delete(`${this.url}/${Id}`);
+return this.http.delete(`${this.taskUrl}/${Id}`);
   }
+
+
+
+
 
 
 

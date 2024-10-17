@@ -7,7 +7,12 @@ import { catchError, Observable } from 'rxjs';
 })
 export class LogInService {
 
-  private url = 'https://localhost:44372/api/login/'
+  // private url = 'https://localhost:44372/api/login/'
+
+  
+  private url = 'http://ec2-3-131-162-56.us-east-2.compute.amazonaws.com/api/api/login'
+
+
   constructor(private http: HttpClient) { }
 
 

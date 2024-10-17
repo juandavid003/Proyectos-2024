@@ -1,10 +1,11 @@
-<ng-container *ngIf="!isEditUserPage() && !isCreateUserPage() && !isLogInPage(); else userTemplate">
+<ng-container *ngIf="!isEditUserPage() && !isCreateUserPage() && !isLogInPage() && !isEditTaskPage() && !isCreateTaskPage(); else userTemplate">
   <div class="app-container" *ngIf="isLoggedIn; else notLoggedIn">  
     <div class="header">
       <h2>Gestión de Usuarios</h2>
       <button (click)="logout()" class="logout-button">Cerrar Sesión</button>
     </div>
     
+    <!-- Tabla de Usuarios -->
     <table class="user-table">
       <thead>
         <tr>
@@ -29,6 +30,47 @@
       </tbody>
     </table>
     <button (click)="createUser()" class="add-button">Agregar Usuario</button>
+
+    <!-- Tabla de Tareas -->
+    <div class="task-section">
+      <h2>Lista de Tareas</h2>
+      <div class="date-selection">
+        <label for="startDate">Fecha de Inicio:</label>
+        <input type="date" id="startDate" [(ngModel)]="startDate" />
+
+        <label for="endDate">Fecha de Fin:</label>
+        <input type="date" id="endDate" [(ngModel)]="endDate" />
+        <button (click)="searchTasksByDate(startDate, endDate)" class="searchByDates">Buscar</button>
+      </div>
+
+
+      
+      <table class="task-table">
+        <thead>
+          <tr>
+            <th>Task Name</th>
+            <th>Start Date</th>
+            <th>Estimated Time</th>
+            <th>Employee</th>
+            <th>Project</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let task of tasks">
+            <td>{{ task.taskname }}</td>
+            <td>{{ task.start_date | date }}</td>
+            <td>{{ task.estimated_time }}</td>
+            <td>{{ task.employee }}</td>
+            <td>{{ task.project }}</td>
+            <td>
+              <button (click)="editTask(task.task_id)" class="action-button edit-button">Editar</button>
+              <button (click)="deleteTask(task.task_id, task.taskname)" class="action-button delete-button">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button (click)="createTask()" class="add-button">Agregar Tarea</button>
+    </div>
   </div>
   
   <ng-template #notLoggedIn>

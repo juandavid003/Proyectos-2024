@@ -1,0 +1,71 @@
+<p class="section-title">Crear Nueva Tarea</p>
+
+<div *ngIf="!isLoggedIn" class="alert alert-warning">
+  <p>No tienes permiso para ver esta página. Por favor, inicia sesión.</p>
+</div>
+
+<div *ngIf="isLoggedIn" class="task-form-container">
+  <form (ngSubmit)="ClickCreateNewTask()" #taskForm="ngForm">
+    <div class="form-group">
+      <label for="taskname">Nombre de la Tarea:</label>
+      <input
+        type="text"
+        id="taskname"
+        [(ngModel)]="NewTask.taskname"
+        name="taskname"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="start_date">Fecha de Inicio:</label>
+      <input
+        type="date"
+        id="start_date"
+        [(ngModel)]="NewTask.start_date"
+        name="start_date"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="estimated_time">Tiempo Estimado:</label>
+      <input
+        type="time"
+        id="estimated_time"
+        [(ngModel)]="NewTask.estimated_time"
+        name="estimated_time"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="employee">Empleado Asignado:</label>
+      <input
+        type="text"
+        id="employee"
+        [(ngModel)]="NewTask.employee"
+        name="employee"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="project">Proyecto Asignado:</label>
+      <input
+        type="text"
+        id="project"
+        [(ngModel)]="NewTask.project"
+        name="project"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Agregar Tarea</button>
+  </form>
+</div>

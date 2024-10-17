@@ -11,7 +11,10 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'CrudAngular1';
   users: any;
+  tasks: any;
   isLoggedIn: boolean = false;
+  startDate: string = '';
+  endDate: string = '';
 
   constructor(private Service: ApiService, private router: Router) {}
 
@@ -27,12 +30,29 @@ export class AppComponent {
     return this.router.url.startsWith('/login');
   }
 
+  isEditTaskPage(){
+    return this.router.url.startsWith('/edit-task');
+  }
+
+  isCreateTaskPage(){
+    return this.router.url.startsWith('/createTask');
+
+  }
+
   ngOnInit() {
     this.Service.getPosts().subscribe(response => {
       this.users = response;
     }, (err: HttpErrorResponse) => {
       console.log(err);
     });
+
+    this.Service.getTasks().subscribe(response => {
+      this.tasks = response;
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    });
+
+
 
     this.checkLoginStatus(); 
   }
@@ -67,5 +87,40 @@ export class AppComponent {
     this.isLoggedIn = false; 
     this.router.navigate(['/login']); 
   }
+
+  searchTasksByDate(startDate: string, endDate: string) 
+  {
+    if (startDate && endDate) {
+      
+      this.Service.searchTasksByDate(startDate, endDate).subscribe(response => {
+        this.tasks = response;
+      }, (err: HttpErrorResponse) => {
+        console.log(err);
+      });
+    } else {
+      alert('Por favor, selecciona ambas fechas de inicio y fin.');
+    }
+  }
+
+
+  editTask(task_id: number){
+    console.log(`Navigating to edit user with ID: ${task_id}`);
+    this.router.navigate([`/edit-task/${task_id}`]);
+
+  }
+  deleteTask(task_id: number, taskname: string) {
+    this.Service.delete(task_id).subscribe(response => {
+      this.users = response; 
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    });
+    alert(`Tarea ${taskname} eliminada`);
+  }
+
+  createTask() {
+    this.router.navigate(['/createTask']);  
+  }
+
+  
   
 }
