@@ -7,16 +7,21 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Configuration;
 
 
 namespace CRUD.Controllers
 {
     public class LogInController : ApiController
     {
+
+        string connectionString = ConfigurationManager.ConnectionStrings["MyConnString"].ConnectionString;
+
         // GET: api/LogIn
         public IEnumerable<usuario> Get()
+
         {
-            using (DB_CrudLogInEntities db = new DB_CrudLogInEntities())
+            using (DB_CrudLogInEntities db = new DB_CrudLogInEntities(connectionString))
             { 
              return db.usuarios.ToList();
             }
@@ -24,7 +29,7 @@ namespace CRUD.Controllers
 
         public IHttpActionResult Get(int id)
         {
-            using (DB_CrudLogInEntities db = new DB_CrudLogInEntities())
+            using (DB_CrudLogInEntities db = new DB_CrudLogInEntities(connectionString))
             {
                 var usuario = db.usuarios.FirstOrDefault(u => u.Id == id);
                 if (usuario == null)
@@ -44,7 +49,7 @@ namespace CRUD.Controllers
                 return BadRequest(ModelState);
             }
 
-            using (DB_CrudLogInEntities db = new DB_CrudLogInEntities())
+            using (DB_CrudLogInEntities db = new DB_CrudLogInEntities(connectionString))
             {
                 db.usuarios.Add(newUser);
                 db.SaveChanges();
@@ -63,7 +68,7 @@ namespace CRUD.Controllers
                 return BadRequest(ModelState);
             }
 
-            using (DB_CrudLogInEntities db = new DB_CrudLogInEntities())
+            using (DB_CrudLogInEntities db = new DB_CrudLogInEntities(connectionString))
             {
                 var existingUser = db.usuarios.FirstOrDefault(u => u.Id == id);
                 if (existingUser == null)
@@ -90,7 +95,7 @@ namespace CRUD.Controllers
 
         public IHttpActionResult Delete(int id)
         {
-            using (DB_CrudLogInEntities db = new DB_CrudLogInEntities())
+            using (DB_CrudLogInEntities db = new DB_CrudLogInEntities(connectionString))
             {
                 var usuario = db.usuarios.FirstOrDefault(u => u.Id == id);
                 if (usuario == null)
