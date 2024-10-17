@@ -42,11 +42,13 @@ export class ApiService {
     return this.http.put(`${this.url}/${Id}`, updatedUser);
   }
 
-  delete(Id: number){
-return this.http.delete(`${this.taskUrl}/${Id}`);
+  deleteUser(Id: number){
+return this.http.delete(`${this.url}/${Id}`);
   }
 
-
+  deleteTask(Id: number){
+    return this.http.delete(`${this.taskUrl}/${Id}`);
+      }
 
 
 

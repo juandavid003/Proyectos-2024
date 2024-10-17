@@ -64,7 +64,7 @@ export class AppComponent {
   }
 
   deleteUser(Id: number, username: string) {
-    this.Service.delete(Id).subscribe(response => {
+    this.Service.deleteUser(Id).subscribe(response => {
       this.users = response; 
     }, (err: HttpErrorResponse) => {
       console.log(err);
@@ -109,7 +109,7 @@ export class AppComponent {
 
   }
   deleteTask(task_id: number, taskname: string) {
-    this.Service.delete(task_id).subscribe(response => {
+    this.Service.deleteTask(task_id).subscribe(response => {
       this.users = response; 
     }, (err: HttpErrorResponse) => {
       console.log(err);
