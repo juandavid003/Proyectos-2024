@@ -1,7 +1,12 @@
 export interface UserLogInModel {
-    UserName: string;
-    Password: string;
-    Rol: string;
-    State: String;
+    FirstName: string;
+    LastName: string;
+    BirthDate: Date;
+    RoleName: String;
+    Password:String;
+    Status:String;
+    UpdatedAt: Date;
+    CreatedAt: Date;
+    RoleId: Number;
   }
   

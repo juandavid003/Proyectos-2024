@@ -1,0 +1,77 @@
+<div *ngIf="isLoggedIn" class="edit-form-container">
+  <form (ngSubmit)="saveChanges()">
+    <div class="form-group">
+      <label for="userfirstname">PrimerNombre:</label>
+      <input
+        [(ngModel)]="user.FirstName"
+        name="UserFirstName"
+        required
+        class="form-control"
+      />
+    </div>
+    <div class="form-group">
+      <label for="userlastname">SegundoNombre:</label>
+      <input
+        [(ngModel)]="user.LastName"
+        name="UserLastName"
+        required
+        class="form-control"
+      />
+    </div>
+    <div class="form-group">
+      <label for="userBirthdate">Nacimiento:</label>
+      <input
+        type="date"
+        [(ngModel)]="user.BirthDate"
+        name="UserBirthdate"
+        required
+        class="form-control"
+      />
+    </div>
+    
+    <div class="form-group">
+      <label for="role">Rol:</label>
+      <select [(ngModel)]="user.RoleId" name="RoleId" class="form-control"> 
+        <option value=2>Supervisor</option>
+        <option value=3>Especialista</option>
+        <option value=1>Admin</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="status">Estado:</label>
+      <select [(ngModel)]="user.Status" name="Status" class="form-control">
+        <option value="Active">Activo</option>
+        <option value="Inactive">Inactivo</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="createdAt">Fecha de Creación:</label>
+      <input
+      type="date"
+      [(ngModel)]="user.CreatedAt" 
+        name="CreatedAt"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="updatedAt">Fecha de Actualización:</label>
+      <input
+      type="date"
+      [(ngModel)]="user.UpdatedAt" 
+        name="UpdatedAt"
+        required 
+        class="form-control"
+      />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+  </form>
+</div>
+
+<div *ngIf="!isLoggedIn" class="alert alert-warning">
+  <p>No tienes permiso para ver esta página. Por favor, inicia sesión.</p>
+</div>

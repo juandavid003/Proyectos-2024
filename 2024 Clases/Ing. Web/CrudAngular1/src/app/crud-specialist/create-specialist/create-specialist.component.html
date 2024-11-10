@@ -1,0 +1,101 @@
+<div *ngIf="!isLoggedIn" class="alert alert-warning">
+  <p>No tienes permiso para ver esta página. Por favor, inicia sesión.</p>
+</div>
+
+<div *ngIf="isLoggedIn" class="edit-form-container">
+  <form (ngSubmit)="ClickCreateNewSpecialist()" #specialistForm="ngForm">
+    
+    <!-- Código del especialista -->
+    <div class="form-group">
+      <label for="code">Código:</label>
+      <input
+        type="text"
+        id="code"
+        [(ngModel)]="NewSpecialist.Code"
+        name="code"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <!-- Primer nombre -->
+    <div class="form-group">
+      <label for="firstName">Primer Nombre:</label>
+      <input
+        type="text"
+        id="firstName"
+        [(ngModel)]="NewSpecialist.FirstName"
+        name="firstName"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <!-- Segundo nombre -->
+    <div class="form-group">
+      <label for="lastName">Segundo Nombre:</label>
+      <input
+        type="text"
+        id="lastName"
+        [(ngModel)]="NewSpecialist.LastName"
+        name="lastName"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <!-- Contraseña -->
+    <div class="form-group">
+      <label for="password">Contraseña:</label>
+      <input
+        type="password"
+        id="password"
+        [(ngModel)]="NewSpecialist.Password"
+        name="password"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <!-- Fecha de nacimiento -->
+    <div class="form-group">
+      <label for="birthDate">Fecha de Nacimiento:</label>
+      <input
+        type="date"
+        id="birthDate"
+        [(ngModel)]="NewSpecialist.BirthDate"
+        name="birthDate"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <!-- EspecialidadId -->
+    <div class="form-group">
+      <label for="status">Especialidad:</label>
+      <select [(ngModel)]="NewSpecialist.EspecialityId" name="status" class="form-control">
+        <option *ngFor="let especiality of allEspecialities" [value]="especiality.Id">
+          {{ especiality.Name }}
+        </option>
+      </select>
+    </div>
+    
+
+    <!-- Eficiencia -->
+    <div class="form-group">
+      <label for="efficiency">Eficiencia (%):</label>
+      <input
+        type="number"
+        id="efficiency"
+        [(ngModel)]="NewSpecialist.Efficiency"
+        name="efficiency"
+        required
+        class="form-control"
+        min="0"
+        max="100"
+      />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Agregar Especialista</button>
+  </form>
+</div>

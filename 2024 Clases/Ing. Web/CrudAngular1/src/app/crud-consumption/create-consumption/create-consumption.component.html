@@ -1,0 +1,64 @@
+<div *ngIf="isLoggedIn" class="edit-form-container">
+    <form (ngSubmit)="ClickCreateNewConsumption()">
+      <!-- Campo para seleccionar el producto -->
+      <div class="form-group">
+        <label for="product">Producto:</label>
+        <select
+          id="product"
+          [(ngModel)]="NewConsuption.productId"
+          name="product"
+          required
+          class="form-control"
+        >
+          <option *ngFor="let product of allProducts" [value]="product.ProductId">
+            {{ product.Name }}
+          </option>
+        </select>
+      </div>
+  
+      <!-- Campo para la fecha de uso -->
+      <div class="form-group">
+        <label for="usedDate">Fecha de Uso:</label>
+        <input
+          type="date"
+          [(ngModel)]="NewConsuption.usedDate"
+          name="usedDate"
+          required
+          class="form-control"
+        />
+      </div>
+  
+      <!-- Campo para el tratamiento -->
+      <div class="form-group">
+        <label for="treatment">Tratamiento:</label>
+        <input
+          type="number"
+          [(ngModel)]="NewConsuption.treatmentId"
+          name="treatment"
+          required
+          class="form-control"
+        />
+      </div>
+  
+      <!-- Campo para la cantidad utilizada -->
+      <div class="form-group">
+        <label for="usedQuantity">Cantidad Utilizada:</label>
+        <input
+          type="number"
+          [(ngModel)]="NewConsuption.usedQuantity"
+          name="usedQuantity"
+          required
+          min="1"
+          class="form-control"
+        />
+      </div>
+  
+      <!-- Botón para crear el consumo -->
+      <button type="submit" class="btn btn-primary">Crear Consumo</button>
+    </form>
+  </div>
+  
+  <div *ngIf="!isLoggedIn" class="alert alert-warning">
+    <p>No tienes permiso para ver esta página. Por favor, inicia sesión.</p>
+  </div>
+  

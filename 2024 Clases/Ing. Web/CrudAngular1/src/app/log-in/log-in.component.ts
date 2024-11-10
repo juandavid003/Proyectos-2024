@@ -37,11 +37,13 @@ export class LogInComponent {
   
     const foundUser = this.users.find(
       (user: UserLogInModel) =>
-        user.UserName == userData.username &&
-        user.Password == userData.password &&
-        user.Rol == "admin" && 
-        user.State == "ACTIVE"
+        `${user.FirstName}${user.LastName}` === userData.username &&
+        user.Password === userData.password &&
+        user.RoleName === "Administrator" &&
+        user.Status === "Active"
     );
+    
+    
   
     if (foundUser) {
       localStorage.setItem('userData', JSON.stringify(userData));

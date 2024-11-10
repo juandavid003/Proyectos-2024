@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GestionService } from '../gestion-usuarios/gestion.service';
 import { CreateTaskService } from './create-task.service';
+
 
 @Component({
   selector: 'app-create-task',

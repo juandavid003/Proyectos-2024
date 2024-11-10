@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GestionService } from './gestion.service';
+import { UserLogInModel } from '../../Interfaces/userLogIn.model';
+
 
 @Component({
   selector: 'app-gestion-usuarios',
@@ -8,14 +10,17 @@ import { GestionService } from './gestion.service';
   styleUrls: ['./gestion-usuarios.component.css'] 
 })
 export class GestionUsuariosComponent {
-  NewUser = { 
-    username: '',
-    mail: '',
-    password: '',
-    completeName: '',
-    startDate: '',
-    state: '',
-    rol: ''
+
+  NewUser : UserLogInModel = { 
+    FirstName: '',
+    LastName: '',
+    Password: '',
+    BirthDate: new Date,
+    RoleName:'',
+    RoleId: 1,
+    UpdatedAt: new Date,
+    CreatedAt: new Date,
+    Status: ''
   };
 
   isLoggedIn: boolean = false; 
@@ -30,9 +35,10 @@ export class GestionUsuariosComponent {
   }
 
   ClickCreateNewUser() {
-    if (this.NewUser.username && this.NewUser.mail && this.NewUser.password && this.NewUser.completeName && this.NewUser.startDate) {
+    if (this.NewUser.FirstName && this.NewUser.LastName && this.NewUser.Password && this.NewUser.BirthDate) {
+      this.NewUser.RoleId
       this.service.CreatUser(this.NewUser).subscribe(response => {
-        alert(`Usuario ${this.NewUser.username} creado`);
+        alert(`Usuario ${this.NewUser.FirstName} creado`);
         this.resetForm();
       }, error => {
         console.error('Error al crear el usuario', error);
@@ -43,14 +49,17 @@ export class GestionUsuariosComponent {
   }
 
   resetForm() {
+
     this.NewUser = { 
-      username: '',
-      mail: '',
-      password: '',
-      completeName: '',
-      startDate: '',
-      state: '',
-      rol: ''
+      FirstName: '',
+      LastName: '',
+      Password: '',
+      BirthDate: new Date,
+      RoleName:'',
+      RoleId: 1,
+      UpdatedAt: new Date,
+      CreatedAt: new Date,
+      Status: ''
     };
   }
 }

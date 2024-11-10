@@ -1,56 +1,83 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable } from 'rxjs';
+import { ModuleModule } from './module/module.module';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  private url = 'https://localhost:44372/api/login/'
-  private taskUrl = 'https://localhost:44372/api/task/'
+  // private url = 'https://localhost:44372/api/login/'
+  // private taskUrl = 'https://localhost:44372/api/task/'
+  // private specialistUrl = 'https://localhost:44372/api/specialist'
 
    //private url = 'http://ec2-3-131-162-56.us-east-2.compute.amazonaws.com/api/api/login/'
   //private taskUrl = 'http://ec2-3-131-162-56.us-east-2.compute.amazonaws.com/api/api/task/'
+  // private specialistUrl = 'http://ec2-3-131-162-56.us-east-2.compute.amazonaws.com/api/specialist'
 
 
-  constructor(private http: HttpClient) { }
+
+  constructor(private http: HttpClient, private module: ModuleModule) { }
 
   getPosts() {
-    return this.http.get(this.url, this.getHeader()).pipe(
-      catchError(this.handleError('get' + this.url, []))
+    const url = `${this.module.getLoginUrl()}login`;
+    return this.http.get(url, this.getHeader()).pipe(
     );
   }
 
   getTasks() {
-    return this.http.get(this.taskUrl, this.getHeader()).pipe(
-      catchError(this.handleError('get' + this.taskUrl, []))
+    const url = `${this.module.getLoginUrl()}task`;
+    return this.http.get(url, this.getHeader()).pipe(
+    );
+  }
+  
+  getSpecialists() {
+    const url = `${this.module.getLoginUrl()}specialist`;
+    return this.http.get(url, this.getHeader()).pipe(
     );
   }
 
-  searchTasksByDate(startDate: string, endDate: string): Observable<any[]> {
-    const url = `${this.taskUrl}searchByDate?startDate=${startDate}&endDate=${endDate}`;
-    return this.http.get<any[]>(url).pipe(
-      catchError(this.handleError('searchTasksByDate', []))
+  getConsumption() {
+    const url = `${this.module.getLoginUrl()}consumption`;
+    return this.http.get(url, this.getHeader()).pipe(
     );
   }
+
+
+
+
+  // searchTasksByDate(startDate: string, endDate: string): Observable<any[]> {
+  //   const url = `${this.taskUrl}searchByDate?startDate=${startDate}&endDate=${endDate}`;
+  //   return this.http.get<any[]>(url).pipe(
+  //     catchError(this.handleError('searchTasksByDate', []))
+  //   );
+  // }
 
 
   
 
   editId(Id: number, updatedUser: any) {
-    return this.http.put(`${this.url}/${Id}`, updatedUser);
+    return this.http.put(`${this.module.getLoginUrl()}/${Id}`, updatedUser);
   }
 
   deleteUser(Id: number){
-return this.http.delete(`${this.url}/${Id}`);
-  }
-
-  deleteTask(Id: number){
-    return this.http.delete(`${this.taskUrl}/${Id}`);
+    return this.http.delete(`${this.module.getLoginUrl()}/${Id}`);
       }
 
+  deleteTask(Id: number){
+    const url = `${this.module.getLoginUrl()}task`;
+    return this.http.delete(`${url}/${Id}`);
+      }
 
+  deleteSpecialist(Id: number){
+    const url = `${this.module.getLoginUrl()}specialist`;
+    return this.http.delete(`${url}/${Id}`);
+ }
+ deleteConsuption(Id: number){
+  const url = `${this.module.getLoginUrl()}consumption`;
+  return this.http.delete(`${url}/${Id}`);
+}
 
 
 

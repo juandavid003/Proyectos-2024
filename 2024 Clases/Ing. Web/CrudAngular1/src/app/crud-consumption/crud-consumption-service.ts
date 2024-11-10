@@ -1,27 +1,41 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable } from 'rxjs';
+import { ModuleModule } from '../module/module.module';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class EditService {
+export class CrudConsuptionService {
 
-  // private url = 'https://localhost:44372/api/login/'
 
-  
-  private url = 'http://ec2-3-131-162-56.us-east-2.compute.amazonaws.com/api/api/login/'
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private module: ModuleModule) { }
 
   getById(Id: number) {
-    return this.http.get(`${this.url}/${Id}`);
+    const url = `${this.module.getLoginUrl()}consumption`;
+    return this.http.get(`${url}/${Id}`);
+  }
+
+  
+  editId(Id: number, updatedConsuption: any) {
+    const url = `${this.module.getLoginUrl()}consumption`;
+    return this.http.put(`${url}/${Id}`, updatedConsuption);
   }
 
 
-
-  editId(Id: number, updatedUser: any) {
-    return this.http.put(`${this.url}/${Id}`, updatedUser);
+  createConsuption(updatedConsuption: any) {
+    const url = `${this.module.getLoginUrl()}consumption`;
+    return this.http.post(`${url}`, updatedConsuption);
   }
+
+  getAllProducts() {
+    const url = `${this.module.getLoginUrl()}product`;
+    return this.http.get(`${url}`);
+  }
+
+  
+
 
 
 

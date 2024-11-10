@@ -1,7 +1,8 @@
-<ng-container *ngIf="!isEditUserPage() && !isCreateUserPage() && !isLogInPage() && !isEditTaskPage() && !isCreateTaskPage(); else userTemplate">
+<ng-container *ngIf="!isEditUserPage() && !isCreateUserPage() && !isLogInPage() && !isEditTaskPage() && !isCreateTaskPage()
+&& !isEditSpecialistPage() && !isCreateSpecialistPage() && !isEditConsumptionPage() && !isCreateConsumptionPage(); else userTemplate">
   <div class="app-container" *ngIf="isLoggedIn; else notLoggedIn">  
     <div class="header">
-      <h2>Gestión de Usuarios</h2>
+      <h2>Administracion de Usuarios</h2>
       <button (click)="logout()" class="logout-button">Cerrar Sesión</button>
     </div>
     
@@ -35,8 +36,76 @@
     </table>
     <button (click)="createUser()" class="add-button">Agregar Usuario</button>
 
+
+    <!-- Tabla de Especialistas -->
+    <div class="header">
+      <h2>Administracion de Especialistas</h2>
+    </div>
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Nacimiento</th>
+          <th>Especialidad</th>
+          <th>Eficiencia</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let specialist of specialists">
+          <td>{{ specialist.FirstName }}</td>
+          <td>{{ specialist.LastName }}</td>
+          <td>{{ specialist.BirthDate | date }}</td>
+          <td>{{ specialist.Especiality }}</td>
+          <td>{{ specialist.Efficiency }}</td>
+          <td>
+            <button (click)="editSpecialist(specialist.Id)" class="action-button edit-button">Editar</button>
+            <button (click)="deleteSpecialist(specialist.Id, specialist.FirstName)" class="action-button delete-button">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button (click)="createSpecialist()" class="add-button">Agregar Especialista</button>
+
+
+
+
+        <!-- Tabla de Consumo -->
+        <div class="header">
+          <h2>Administracion de Consumo</h2>
+        </div>
+        <table class="user-table">
+          <thead>
+            <tr>
+              <th>Id del tratamiento </th>
+              <th>Nombre del producto</th>
+              <th>Fecha de uso</th>
+              <th>Cantidad Utilizada</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let consumption of consumptions">
+              <td>{{ consumption.TreatmentId }}</td>
+              <td>{{ consumption.ProductName}}</td>
+              <td>{{ consumption.UsedDate | date }}</td>
+              <td>{{ consumption.UsedQuantity }}</td>
+              <td>
+                <button (click)="editConsumption(consumption.Id)" class="action-button edit-button">Editar</button>
+                <button (click)="deleteConsumption(consumption.Id, consumption.TreatmentId)" class="action-button delete-button">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button (click)="createConsumption()" class="add-button">Agregar Consumo</button>
+
+    
+
+
+
     <!-- Tabla de Tareas -->
-    <div class="task-section">
+    <!-- <div class="task-section">
       <h2>Lista de Tareas</h2>
       <div class="date-selection">
         <label for="startDate">Fecha de Inicio:</label>
@@ -74,7 +143,7 @@
         </tbody>
       </table>
       <button (click)="createTask()" class="add-button">Agregar Tarea</button>
-    </div>
+    </div> -->
   </div>
   
   <ng-template #notLoggedIn>

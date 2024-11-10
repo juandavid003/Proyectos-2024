@@ -1,0 +1,100 @@
+<p class="section-title">Gestión de Usuarios</p>
+
+<div *ngIf="!isLoggedIn" class="alert alert-warning">
+  <p>No tienes permiso para ver esta página. Por favor, inicia sesión.</p>
+</div>
+
+<div *ngIf="isLoggedIn" class="user-form-container">
+  <form (ngSubmit)="ClickCreateNewUser()" #userForm="ngForm">
+    <div class="form-group">
+      <label for="firstName">Primer Nombre:</label>
+      <input
+        type="text"
+        id="firstName"
+        [(ngModel)]="NewUser.FirstName"
+        name="firstName"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="lastName">Segundo Nombre:</label>
+      <input
+        type="text"
+        id="lastName"
+        [(ngModel)]="NewUser.LastName"
+        name="lastName"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input
+        type="password"
+        id="password"
+        [(ngModel)]="NewUser.Password"
+        name="password"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="birthDate">Fecha de Nacimiento:</label>
+      <input
+        type="date"
+        id="birthDate"
+        [(ngModel)]="NewUser.BirthDate"
+        name="birthDate"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="role">Rol:</label>
+      <select [(ngModel)]="NewUser.RoleId" name="role" class="form-control">
+        <option value=2>Supervisor</option>
+        <option value=3>Especialista</option>
+        <option value=1>Admin</option>
+      </select>
+    </div>
+
+    <!-- <div class="form-group">
+      <label for="createdAt">Fecha de Creación:</label>
+      <input
+        type="date"
+        id="createdAt"
+        [(ngModel)]="NewUser.CreatedAt"
+        name="createdAt"
+        required
+        class="form-control"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="updatedAt">Fecha de Actualización:</label>
+      <input
+        type="date"
+        id="updatedAt"
+        [(ngModel)]="NewUser.UpdatedAt"
+        name="updatedAt"
+        required
+        class="form-control"
+      />
+    </div> -->
+
+    <div class="form-group">
+      <label for="status">Estado:</label>
+      <select [(ngModel)]="NewUser.Status" name="status" class="form-control">
+        <option value="Active">Activo</option>
+        <option value="Inactive">Inactivo</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Agregar Usuario</button>
+  </form>
+</div>

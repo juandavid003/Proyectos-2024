@@ -1,0 +1,63 @@
+<div *ngIf="isLoggedIn" class="edit-form-container">
+    <form (ngSubmit)="saveChanges()">
+      <!-- Campo para la fecha de uso -->
+      <div class="form-group">
+        <label for="usedDate">Fecha de Uso:</label>
+        <input
+          type="date"
+          [(ngModel)]="consumption.UsedDate"
+          name="usedDate"
+          required
+        />
+      </div>
+  
+      <!-- Campo para el nombre del producto (solo lectura) -->
+<div class="form-group">
+  <label for="productName">Producto:</label>
+  <select
+    [(ngModel)]="consumption.ProductName"
+    name="productName"
+    class="form-control"
+  >
+    <option *ngFor="let product of allProducts" [value]="product.Name">
+      {{ product.Name }}
+    </option>
+  </select>
+</div>
+
+  
+      <!-- Campo para el tratamiento (dropdown) -->
+      <div class="form-group">
+        <label for="treatment">Tratamiento:</label>
+        <select
+          [(ngModel)]="consumption.TreatmentId"
+          name="treatment"
+          required
+        >
+          <option *ngFor="let treatment of treatments" [value]="treatment.id">
+            {{ treatment.description }}
+          </option>
+        </select>
+      </div>
+  
+      <!-- Campo para la cantidad utilizada -->
+      <div class="form-group">
+        <label for="usedQuantity">Cantidad Utilizada:</label>
+        <input
+          type="number"
+          [(ngModel)]="consumption.UsedQuantity"
+          name="usedQuantity"
+          required
+          min="1"
+        />
+      </div>
+  
+      <!-- Botón para guardar los cambios -->
+      <button type="submit" class="btn-primary">Guardar Cambios</button>
+    </form>
+  </div>
+  
+  <div *ngIf="!isLoggedIn" class="alert">
+    <p>No tienes permiso para ver esta página. Por favor, inicia sesión.</p>
+  </div>
+  

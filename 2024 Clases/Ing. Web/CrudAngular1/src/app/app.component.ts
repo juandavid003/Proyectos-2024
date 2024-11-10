@@ -15,6 +15,8 @@ export class AppComponent {
   isLoggedIn: boolean = false;
   startDate: string = '';
   endDate: string = '';
+  specialists: any;
+  consumptions: any;
 
   constructor(private Service: ApiService, private router: Router) {}
 
@@ -38,6 +40,22 @@ export class AppComponent {
     return this.router.url.startsWith('/createTask');
 
   }
+  
+  isEditSpecialistPage(){
+    return this.router.url.startsWith('/edit-specialist');
+  }
+
+  isCreateSpecialistPage(){
+    return this.router.url.startsWith('/createSpecialist');
+
+  }
+  isEditConsumptionPage(){
+    return this.router.url.startsWith('/edit-consumption');
+  }
+  isCreateConsumptionPage(){
+    return this.router.url.startsWith('/createConsumption');
+
+  }
 
   ngOnInit() {
     this.Service.getPosts().subscribe(response => {
@@ -52,6 +70,17 @@ export class AppComponent {
       console.log(err);
     });
 
+    this.Service.getSpecialists().subscribe(response => {
+      this.specialists = response;
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    });
+
+    this.Service.getConsumption().subscribe(response => {
+      this.consumptions = response;
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    });
 
 
     this.checkLoginStatus(); 
@@ -59,7 +88,6 @@ export class AppComponent {
 
 
   editUser(Id: number) {
-    console.log(`Navigating to edit user with ID: ${Id}`);
     this.router.navigate([`/edit-user/${Id}`]);
   }
 
@@ -73,9 +101,55 @@ export class AppComponent {
   }
 
   createUser() {
-    console.log('Navigating to create user');
     this.router.navigate(['/createUser']);  
   }
+
+
+
+
+
+
+  editSpecialist(Id: number) {
+    this.router.navigate([`/edit-specialist/${Id}`]);
+  }
+
+  deleteSpecialist(Id: number, specialistName: string) {
+    this.Service.deleteSpecialist(Id).subscribe(response => {
+      this.specialists = response; 
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    });
+    alert(`Specialista ${specialistName} eliminado`);
+  }
+
+  createSpecialist() {
+    this.router.navigate(['/createSpecialist']);  
+  }
+
+
+
+
+
+  editConsumption(Id: number) {
+    this.router.navigate([`/edit-consumption/${Id}`]);
+  }
+
+  deleteConsumption(Id: number, consumptionId: number) {
+    this.Service.deleteConsuption(Id).subscribe(response => {
+      this.consumptions = response; 
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    });
+    alert(`Consumo ${consumptionId} eliminado`);
+  }
+
+  createConsumption() {
+    this.router.navigate(['/createConsumption']);  
+  }
+
+
+
+
 
   checkLoginStatus() {
     const userData = localStorage.getItem('userData');
@@ -88,38 +162,38 @@ export class AppComponent {
     this.router.navigate(['/login']); 
   }
 
-  searchTasksByDate(startDate: string, endDate: string) 
-  {
-    if (startDate && endDate) {
+  // searchTasksByDate(startDate: string, endDate: string) 
+  // {
+  //   if (startDate && endDate) {
       
-      this.Service.searchTasksByDate(startDate, endDate).subscribe(response => {
-        this.tasks = response;
-      }, (err: HttpErrorResponse) => {
-        console.log(err);
-      });
-    } else {
-      alert('Por favor, selecciona ambas fechas de inicio y fin.');
-    }
-  }
+  //     this.Service.searchTasksByDate(startDate, endDate).subscribe(response => {
+  //       this.tasks = response;
+  //     }, (err: HttpErrorResponse) => {
+  //       console.log(err);
+  //     });
+  //   } else {
+  //     alert('Por favor, selecciona ambas fechas de inicio y fin.');
+  //   }
+  // }
 
 
-  editTask(task_id: number){
-    console.log(`Navigating to edit user with ID: ${task_id}`);
-    this.router.navigate([`/edit-task/${task_id}`]);
+  // editTask(task_id: number){
+  //   console.log(`Navigating to edit user with ID: ${task_id}`);
+  //   this.router.navigate([`/edit-task/${task_id}`]);
 
-  }
-  deleteTask(task_id: number, taskname: string) {
-    this.Service.deleteTask(task_id).subscribe(response => {
-      this.users = response; 
-    }, (err: HttpErrorResponse) => {
-      console.log(err);
-    });
-    alert(`Tarea ${taskname} eliminada`);
-  }
+  // }
+  // deleteTask(task_id: number, taskname: string) {
+  //   this.Service.deleteTask(task_id).subscribe(response => {
+  //     this.users = response; 
+  //   }, (err: HttpErrorResponse) => {
+  //     console.log(err);
+  //   });
+  //   alert(`Tarea ${taskname} eliminada`);
+  // }
 
-  createTask() {
-    this.router.navigate(['/createTask']);  
-  }
+  // createTask() {
+  //   this.router.navigate(['/createTask']);  
+  // }
 
   
   
