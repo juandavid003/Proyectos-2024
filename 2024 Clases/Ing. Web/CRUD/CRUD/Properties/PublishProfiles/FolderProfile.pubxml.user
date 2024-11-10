@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>C:\Users\rjuan\Downloads\Proyectos 2024\2024 Clases\Ing. Web\APICRUD</_PublishTargetUrl>
-    <History>True|2024-10-16T20:16:32.1327508Z||;</History>
+    <History>True|2024-11-10T05:12:06.4891767Z||;True|2024-10-16T15:16:32.1327508-05:00||;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -79,19 +79,19 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/10/2013 16:29:20</publishTime>
     </File>
     <File Include="bin/CRUD.dll">
-      <publishTime>10/16/2024 15:16:29</publishTime>
+      <publishTime>11/10/2024 00:12:04</publishTime>
     </File>
     <File Include="bin/CRUD.pdb">
-      <publishTime>10/16/2024 15:16:29</publishTime>
+      <publishTime>11/10/2024 00:12:04</publishTime>
     </File>
     <File Include="bin/DB.dll">
-      <publishTime>10/16/2024 13:45:12</publishTime>
+      <publishTime>11/10/2024 00:12:04</publishTime>
     </File>
     <File Include="bin/DB.dll.config">
-      <publishTime>10/15/2024 22:52:15</publishTime>
+      <publishTime>10/27/2024 12:09:53</publishTime>
     </File>
     <File Include="bin/DB.pdb">
-      <publishTime>10/16/2024 13:45:12</publishTime>
+      <publishTime>11/10/2024 00:12:04</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>06/16/2024 15:46:24</publishTime>
@@ -628,7 +628,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/28/2024 17:14:16</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>10/16/2024 15:16:30</publishTime>
+      <publishTime>11/10/2024 00:12:05</publishTime>
     </File>
   </ItemGroup>
 </Project>

@@ -2,28 +2,40 @@
 using Microsoft.AspNetCore.Cors;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.Infrastructure;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Web.Http;
-using System.Configuration;
-
 
 namespace CRUD.Controllers
 {
     public class LogInController : ApiController
     {
-
         string connectionString = ConfigurationManager.ConnectionStrings["MyConnString"].ConnectionString;
 
         // GET: api/LogIn
-        public IEnumerable<usuario> Get()
-
+        public IEnumerable<UserWithRoleDto> Get()
         {
             using (DB_CrudLogInEntities db = new DB_CrudLogInEntities(connectionString))
-            { 
-             return db.usuarios.ToList();
+            {
+                var usersWithRoles = from user in db.users
+                                     join role in db.roles on user.roleId equals role.id
+                                     select new UserWithRoleDto
+                                     {
+                                         Id = user.id,
+                                         FirstName = user.firstName,
+                                         LastName = user.lastName,
+                                         BirthDate = user.birthDate,
+                                         RoleName = role.name,
+                                         CreatedAt = user.createdAt,
+                                         UpdatedAt = user.updatedAt,
+                                         Password = user.password,
+                                         Status = user.status,
+                                     };
+
+                return usersWithRoles.ToList();
             }
         }
 
@@ -31,7 +43,22 @@ namespace CRUD.Controllers
         {
             using (DB_CrudLogInEntities db = new DB_CrudLogInEntities(connectionString))
             {
-                var usuario = db.usuarios.FirstOrDefault(u => u.Id == id);
+                var usuario = (from user in db.users
+                               join role in db.roles on user.roleId equals role.id
+                               where user.id == id
+                               select new UserWithRoleDto
+                               {
+                                   Id = user.id,
+                                   FirstName = user.firstName,
+                                   LastName = user.lastName,
+                                   BirthDate = user.birthDate,
+                                   RoleName = role.name,
+                                   CreatedAt = user.createdAt,
+                                   UpdatedAt = user.updatedAt,
+                                   Password = user.password,
+                                   Status = user.status,
+                               }).FirstOrDefault();
+
                 if (usuario == null)
                 {
                     return NotFound();
@@ -40,49 +67,76 @@ namespace CRUD.Controllers
             }
         }
 
-
-
-        public IHttpActionResult Post([FromBody] usuario newUser)
+        // Método para validar la contraseña
+        private bool IsValidPassword(string password)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            var passwordRegex = new Regex(@"^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$");
+            return passwordRegex.IsMatch(password);
+        }
+
+        // Método para validar el estado del usuario
+        private bool IsValidStatus(string status)
+        {
+            return status == "Active" || status == "Inactive";
+        }
+
+        // Método para validar el nombre
+        private bool IsValidName(string name)
+        {
+            return !string.IsNullOrWhiteSpace(name) && name.Length >= 2;
+        }
+
+        public IHttpActionResult Post([FromBody] user newUser)
+        {
+            if (!ModelState.IsValid || newUser == null)
+                return BadRequest("Datos de usuario inválidos.");
+
+            if (!IsValidPassword(newUser.password))
+                return BadRequest("La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número.");
+
+            if (!IsValidStatus(newUser.status))
+                return BadRequest("El estado del usuario debe ser 'Active' o 'Inactive'.");
+
+            if (!IsValidName(newUser.firstName) || !IsValidName(newUser.lastName))
+                return BadRequest("El nombre y apellido deben tener al menos 2 caracteres.");
 
             using (DB_CrudLogInEntities db = new DB_CrudLogInEntities(connectionString))
             {
-                db.usuarios.Add(newUser);
+                db.users.Add(newUser);
                 db.SaveChanges();
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = newUser.Id }, newUser);
+            return CreatedAtRoute("DefaultApi", new { id = newUser.id }, newUser);
         }
 
-
-
-
-        public IHttpActionResult Put(int id, [FromBody] usuario updatedUser)
+        public IHttpActionResult Put(int id, [FromBody] user updatedUser)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (!ModelState.IsValid || updatedUser == null)
+                return BadRequest("Datos de usuario inválidos.");
+
+            if (!IsValidPassword(updatedUser.password))
+                return BadRequest("La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número.");
+
+            if (!IsValidStatus(updatedUser.status))
+                return BadRequest("El estado del usuario debe ser 'Active' o 'Inactive'.");
+
+            if (!IsValidName(updatedUser.firstName) || !IsValidName(updatedUser.lastName))
+                return BadRequest("El nombre y apellido deben tener al menos 2 caracteres.");
 
             using (DB_CrudLogInEntities db = new DB_CrudLogInEntities(connectionString))
             {
-                var existingUser = db.usuarios.FirstOrDefault(u => u.Id == id);
+                var existingUser = db.users.FirstOrDefault(u => u.id == id);
                 if (existingUser == null)
-                {
                     return NotFound();
-                }
 
-                existingUser.UserName = updatedUser.UserName;
-                existingUser.Mail = updatedUser.Mail;
-                existingUser.Password = updatedUser.Password;
-                existingUser.CompleteName = updatedUser.CompleteName;
-                existingUser.StartDate = updatedUser.StartDate;
-                existingUser.State = updatedUser.State;
-                existingUser.Rol = updatedUser.Rol;
+                existingUser.firstName = updatedUser.firstName;
+                existingUser.lastName = updatedUser.lastName;
+                existingUser.password = updatedUser.password;
+                existingUser.birthDate = updatedUser.birthDate;
+                existingUser.roleId = updatedUser.roleId;
+                existingUser.updatedAt = updatedUser.updatedAt;
+                existingUser.createdAt = updatedUser.createdAt;
+                existingUser.status = updatedUser.status;
 
                 db.SaveChanges();
             }
@@ -90,20 +144,15 @@ namespace CRUD.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-
-
-
         public IHttpActionResult Delete(int id)
         {
             using (DB_CrudLogInEntities db = new DB_CrudLogInEntities(connectionString))
             {
-                var usuario = db.usuarios.FirstOrDefault(u => u.Id == id);
+                var usuario = db.users.FirstOrDefault(u => u.id == id);
                 if (usuario == null)
-                {
                     return NotFound();
-                }
 
-                db.usuarios.Remove(usuario);
+                db.users.Remove(usuario);
                 db.SaveChanges();
             }
 
