@@ -1,26 +1,24 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable } from 'rxjs';
+import { ModuleModule } from '../../module/module.module';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EditService {
 
-  private url = 'https://localhost:44372/api/login/'
-
-  
-  //private url = 'http://ec2-3-131-162-56.us-east-2.compute.amazonaws.com/api/api/login/'
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private module: ModuleModule) { }
 
   getById(Id: number) {
-    return this.http.get(`${this.url}/${Id}`);
+    const url = `${this.module.getLoginUrl()}login`;
+    return this.http.get(`${url}/${Id}`);
   }
-
 
 
   editId(Id: number, updatedUser: any) {
-    return this.http.put(`${this.url}/${Id}`, updatedUser);
+    const url = `${this.module.getLoginUrl()}login`;
+    return this.http.put(`${url}/${Id}`, updatedUser);
   }
 
 
@@ -31,6 +29,7 @@ export class EditService {
 
 
 
+  
 
 
 

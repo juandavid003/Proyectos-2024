@@ -41,7 +41,7 @@ export class CreateConsumptionComponent {
 
 
   ClickCreateNewConsumption() {
-    if (this.NewConsuption.productId && this.NewConsuption.treatmentId && this.NewConsuption.usedDate && this.NewConsuption.usedQuantity) {
+    if (this.NewConsuption.productId && this.NewConsuption.treatmentId && this.NewConsuption.usedQuantity) {
       this.service.createConsuption(this.NewConsuption).subscribe(response => {
         alert(`Consumo ${this.NewConsuption.treatmentId} creado`);
         this.resetForm();

@@ -1,29 +1,25 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable } from 'rxjs';
+import { ModuleModule } from '../module/module.module';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LogInService {
 
-  private url = 'https://localhost:44372/api/login/'
-
-  
- // private url = 'http://ec2-3-131-162-56.us-east-2.compute.amazonaws.com/api/api/login/'
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private module: ModuleModule) { }
 
 
+
+ 
   getPosts() {
-    return this.http.get(this.url, this.getHeader()).pipe(
-      catchError(this.handleError('get' + this.url, []))
+    const url = `${this.module.getLoginUrl()}login`;
+    return this.http.get(url, this.getHeader()).pipe(
     );
   }
-  
- 
-
 
 
 
