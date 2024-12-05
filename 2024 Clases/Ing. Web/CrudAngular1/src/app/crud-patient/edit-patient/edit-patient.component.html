@@ -1,0 +1,42 @@
+<div class="header">
+  <h2>Editar Paciente</h2>
+</div>
+
+<form (ngSubmit)="saveChanges()">
+  <div class="form-group">
+    <label for="id">ID del Paciente</label>
+    <input type="text" id="id" [(ngModel)]="patient.id" name="id" class="form-control" [readonly]="true" />
+  </div>
+
+  <div class="form-group">
+    <label for="code">Código</label>
+    <input type="text" id="code" [(ngModel)]="patient.code" name="code" class="form-control" required />
+  </div>
+
+  <div class="form-group">
+    <label for="firstName">Nombre</label>
+    <input type="text" id="firstName" [(ngModel)]="patient.firstName" name="firstName" class="form-control" required />
+  </div>
+
+  <div class="form-group">
+    <label for="lastName">Apellido</label>
+    <input type="text" id="lastName" [(ngModel)]="patient.lastName" name="lastName" class="form-control" required />
+  </div>
+
+  <div class="form-group">
+    <label for="birthDate">Fecha de Nacimiento</label>
+    <input type="date" id="birthDate" [(ngModel)]="patient.birthDate" name="birthDate" class="form-control" required />
+  </div>
+
+  <div class="form-group">
+    <label for="CI">C.I.</label>
+    <input type="text" id="CI" [(ngModel)]="patient.CI" name="CI" class="form-control" required />
+  </div>
+
+  <div class="form-group">
+    <label for="medicalHistory">Historial Médico</label>
+    <textarea id="medicalHistory" [(ngModel)]="patient.medicalHistory" name="medicalHistory" class="form-control" required></textarea>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+</form>

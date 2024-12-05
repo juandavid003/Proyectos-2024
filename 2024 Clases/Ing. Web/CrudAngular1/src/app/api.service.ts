@@ -44,6 +44,33 @@ export class ApiService {
     );
   }
 
+  getTreatment() {
+    const url = `${this.module.getLoginUrl()}treatment`;
+    return this.http.get(url, this.getHeader()).pipe(
+    );
+  }
+
+  getEfficiency() {
+    const url = `${this.module.getLoginUrl()}efficiency`;
+    return this.http.get(url, this.getHeader()).pipe(
+    );
+  }
+
+  getPatient() {
+    const url = `${this.module.getLoginUrl()}patient`;
+    return this.http.get(url, this.getHeader()).pipe(
+    );
+  }
+
+  getSpecialistsConsumption(startDate: string, endDate: string): Observable<any[]> {
+    const url = `${this.module.getLoginUrl()}specialties/consumptions?startDate=${startDate}&endDate=${endDate}`;
+    return this.http.get<any[]>(url, this.getHeader()).pipe(
+      catchError(this.handleError('getSpecialistsConsumption', []))
+    );
+  }
+  
+  
+
 
 
 
@@ -78,11 +105,15 @@ export class ApiService {
   const url = `${this.module.getLoginUrl()}consumption`;
   return this.http.delete(`${url}/${Id}`);
 }
+deleteTreatment(Id: number){
+  const url = `${this.module.getLoginUrl()}treatment`;
+  return this.http.delete(`${url}/${Id}`);
+}
 
-
-
-
-
+deletePatient(Id: number){
+  const url = `${this.module.getLoginUrl()}patient`;
+  return this.http.delete(`${url}/${Id}`);
+}
 
 
 

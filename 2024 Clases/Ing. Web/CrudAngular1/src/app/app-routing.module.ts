@@ -10,6 +10,10 @@ import { CreateSpecialistComponent } from './crud-specialist/create-specialist/c
 import { EditSpecialistComponent } from './crud-specialist/edit-specialist/edit-specialist.component';
 import { CreateConsumptionComponent } from './crud-consumption/create-consumption/create-consumption.component';
 import { EditConsumptionComponent } from './crud-consumption/edit-consumption/edit-consumption.component';
+import { CreateTreatmentComponent } from './crud-treatment/create-treatment/create-treatment.component';
+import { EditTreatmentComponent } from './crud-treatment/edit-treatment/edit-treatment.component';
+import { CreatePatientComponent } from './crud-patient/create-patient/create-patient.component';
+import { EditPatientComponent } from './crud-patient/edit-patient/edit-patient.component';
 
 const routes: Routes = [
    { path: 'createUser', component: GestionUsuariosComponent, canActivate: [AuthGuard] }, 
@@ -20,6 +24,10 @@ const routes: Routes = [
   { path: 'edit-specialist/:id', component: EditSpecialistComponent, canActivate: [AuthGuard] }, 
   { path: 'createConsumption', component: CreateConsumptionComponent, canActivate: [AuthGuard] }, 
   { path: 'edit-consumption/:id', component: EditConsumptionComponent, canActivate: [AuthGuard] }, 
+  { path: 'createTreatment', component: CreateTreatmentComponent, canActivate: [AuthGuard] }, 
+  { path: 'edit-treatment/:id', component: EditTreatmentComponent, canActivate: [AuthGuard] },
+  { path: 'createPatient', component: CreatePatientComponent, canActivate: [AuthGuard] }, 
+  { path: 'edit-patient/:id', component: EditPatientComponent, canActivate: [AuthGuard] },
 
    { path: 'login', component: LogInComponent }, // Login no necesita protección
    { path: '', component: GestionUsuariosComponent, canActivate: [AuthGuard] },

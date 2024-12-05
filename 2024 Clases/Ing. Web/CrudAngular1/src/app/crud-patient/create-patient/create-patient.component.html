@@ -1,0 +1,43 @@
+<div *ngIf="isLoggedIn">
+    <h2>Crear Paciente</h2>
+    <form (ngSubmit)="ClickCreateNewPatient()">
+
+        <div>
+            <label for="code">Codigo:</label>
+            <input type="text" id="code" [(ngModel)]="NewPatient.code" name="code" required />
+          </div>
+
+
+      <div>
+        <label for="firstName">Primer Nombre:</label>
+        <input type="text" id="firstName" [(ngModel)]="NewPatient.firstName" name="firstName" required />
+      </div>
+  
+      <div>
+        <label for="lastName">Apellido:</label>
+        <input type="text" id="lastName" [(ngModel)]="NewPatient.lastName" name="lastName" required />
+      </div>
+  
+      <div>
+        <label for="birthDate">Fecha de Nacimiento:</label>
+        <input type="date" id="birthDate" [(ngModel)]="NewPatient.birthDate" name="birthDate" required />
+      </div>
+  
+      <div>
+        <label for="CI">Cédula de Identidad:</label>
+        <input type="number" id="CI" [(ngModel)]="NewPatient.CI" name="CI" required />
+      </div>
+  
+      <div>
+        <label for="medicalHistory">Historia Médica:</label>
+        <textarea id="medicalHistory" [(ngModel)]="NewPatient.medicalHistory" name="medicalHistory"></textarea>
+      </div>
+  
+      <button type="submit">Crear Paciente</button>
+    </form>
+  </div>
+  
+  <div *ngIf="!isLoggedIn">
+    <p>Por favor, inicie sesión para crear un paciente.</p>
+  </div>
+  

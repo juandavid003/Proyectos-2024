@@ -16,6 +16,11 @@ import { EditSpecialistComponent } from './crud-specialist/edit-specialist/edit-
 import { ModuleModule } from './module/module.module';
 import { CreateConsumptionComponent } from './crud-consumption/create-consumption/create-consumption.component';
 import { EditConsumptionComponent } from './crud-consumption/edit-consumption/edit-consumption.component';
+import { EditTreatmentComponent } from './crud-treatment/edit-treatment/edit-treatment.component';
+import { CreateTreatmentComponent } from './crud-treatment/create-treatment/create-treatment.component';
+import { CreatePatientComponent } from './crud-patient/create-patient/create-patient.component';
+import { EditPatientComponent } from './crud-patient/edit-patient/edit-patient.component';
+
 
 @NgModule({
   declarations: [
@@ -30,6 +35,10 @@ import { EditConsumptionComponent } from './crud-consumption/edit-consumption/ed
     CreateSpecialistComponent,
     CreateConsumptionComponent,
     EditConsumptionComponent,
+    EditTreatmentComponent,
+    CreateTreatmentComponent,
+    CreatePatientComponent,
+    EditPatientComponent
     
   ],
   imports: [

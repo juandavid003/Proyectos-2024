@@ -1,5 +1,8 @@
 <ng-container *ngIf="!isEditUserPage() && !isCreateUserPage() && !isLogInPage() && !isEditTaskPage() && !isCreateTaskPage()
-&& !isEditSpecialistPage() && !isCreateSpecialistPage() && !isEditConsumptionPage() && !isCreateConsumptionPage(); else userTemplate">
+&& !isEditSpecialistPage() && !isCreateSpecialistPage() && !isEditConsumptionPage() && !isCreateConsumptionPage() 
+&& !isEditTreatmentPage() && !isCreateTreatmentPage()
+&& !isEditPatientPage() && !isCreatePatientPage()
+; else userTemplate">
   <div class="app-container" *ngIf="isLoggedIn; else notLoggedIn">  
     <div class="header">
       <h2>Administracion de Usuarios</h2>
@@ -71,6 +74,91 @@
 
 
 
+
+
+
+
+            <!-- Tabla de PACIENTES -->
+
+    <div class="header">
+      <h2>Listado de Pacientes</h2>
+    </div>
+    
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th>ID del Paciente</th>
+          <th>Código</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Fecha de Nacimiento</th>
+          <th>C.I.</th>
+          <th>Historial Médico</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let patient of patients">
+          <td>{{ patient.id }}</td>
+          <td>{{ patient.code }}</td>
+          <td>{{ patient.firstName }}</td>
+          <td>{{ patient.lastName }}</td>
+          <td>{{ patient.birthDate | date: 'shortDate' }}</td>
+          <td>{{ patient.CI }}</td>
+          <td>{{ patient.medicalHistory }}</td>
+          <td>
+            <button (click)="editPatient(patient.id)" class="action-button edit-button">Editar</button>
+            <button (click)="deletePatient(patient.id, patient.firstName)" class="action-button delete-button">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button (click)="createPatient()" class="add-button">Agregar Paciente</button>
+
+
+
+
+        <!-- Tabla de tratamiento -->
+        <div class="header">
+          <h2>Administración de Tratamientos</h2>
+        </div>
+        <table class="user-table">
+          <thead>
+            <tr>
+              <th>Id del Tratamiento</th>
+              <th>Descripción</th>
+              <th>Fecha de Inicio</th>
+              <th>Fecha de Finalización</th>
+              <th>Costo Estándar</th>
+              <th>Consumo Estándar</th>
+              <th>Nombre del Paciente</th>
+              <th>Nombre del Especialista</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let treatment of treatments">
+              <td>{{ treatment.id }}</td>
+              <td>{{ treatment.description }}</td>
+              <td>{{ treatment.startDate | date:'shortDate' }}</td>
+              <td>{{ treatment.endDate | date:'shortDate' }}</td>
+              <td>{{ treatment.standardCost | currency }}</td>
+              <td>{{ treatment.standardConsumption }}</td>
+              <td>{{ treatment.patientName }}</td>
+              <td>{{ treatment.specialistName }}</td>
+              <td>
+                <button (click)="editTreatment(treatment.id)" class="action-button edit-button">Editar</button>
+                <button (click)="deleteTreatment(treatment.id)" class="action-button delete-button">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button (click)="createTreatment()" class="add-button">Agregar Tratamiento</button>
+        
+
+
+
+
         <!-- Tabla de Consumo -->
         <div class="header">
           <h2>Administracion de Consumo</h2>
@@ -99,6 +187,87 @@
           </tbody>
         </table>
         <button (click)="createConsumption()" class="add-button">Agregar Consumo</button>
+
+
+
+
+
+
+                <!-- Tabla de Efficiencia -->
+                <div class="header">
+                  <h2>Efficiencia por Especialidad</h2>
+                </div>
+                <table class="user-table">
+                  <thead>
+                    <tr>
+                      <th>ID de Especialidad</th>
+                      <th>Nombre de Especialidad</th>
+                      <th>Consumo Total</th>
+                      <th>Presupuesto Total</th>
+                      <th>Excedido</th>
+                      <th>Especialista Más Eficiente</th>
+                      <th>Puntaje de Eficiencia</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let efficiency of efficiencys">
+                      <td>{{ efficiency.SpecialtyId }}</td>
+                      <td>{{ efficiency.SpecialtyName }}</td>
+                      <td>{{ efficiency.TotalConsumption }}</td>
+                      <td>{{ efficiency.Budget | currency }}</td>
+                      <td>{{ efficiency.ExceededBudget ? 'Sí' : 'No' }}</td>
+                      <td>{{ efficiency.MostEfficientSpecialist }}</td>
+                      <td>{{ efficiency.EfficiencyScore | number: '1.2-2' }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                
+
+
+                <div class="header">
+                  <h2>Seleccionar Fechas</h2>
+                </div>
+                <div class="date-picker">
+                  <label for="startDate">Fecha Inicio:</label>
+                  <input type="date" id="startDate" [(ngModel)]="startDate">
+                
+                  <label for="endDate">Fecha Fin:</label>
+                  <input type="date" id="endDate" [(ngModel)]="endDate">
+                
+                  <button class="btn-submit" (click)="specialistsConsumption(startDate, endDate)">Enviar Fechas</button>
+                </div>
+                
+                  <div *ngFor="let specialty of SpecialistsConsumption" class="specialty-card">
+                    <h3>{{ specialty.SpecialtyName }}</h3>
+                    <p><strong>Presupuesto ajustado:</strong> {{ specialty.AdjustedBudget | currency }}</p>
+                    <div *ngIf="specialty.Specialists.length > 0; else noSpecialists">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>ID Especialista</th>
+                            <th>Nombre</th>
+                            <th>Consumo Total</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let specialist of specialty.Specialists">
+                            <td>{{ specialist.SpecialistId }}</td>
+                            <td>{{ specialist.SpecialistName }}</td>
+                            <td>{{ specialist.TotalConsumption | number:'1.2-2' }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <ng-template #noSpecialists>
+                      <p>No hay especialistas registrados para esta especialidad.</p>
+                    </ng-template>
+                  </div>
+                <ng-template #noData>
+                  <p>No hay datos disponibles para mostrar.</p>
+                </ng-template>
+                
+            
 
     
 

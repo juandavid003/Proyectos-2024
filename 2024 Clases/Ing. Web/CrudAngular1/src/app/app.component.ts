@@ -8,15 +8,20 @@ import { Router } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
   title = 'CrudAngular1';
   users: any;
   tasks: any;
   isLoggedIn: boolean = false;
-  startDate: string = '';
-  endDate: string = '';
+  startDate: any;
+  endDate: any;
   specialists: any;
   consumptions: any;
+  treatments: any;
+  efficiencys: any;
+  SpecialistsConsumption: any;
+  patients: any;
 
   constructor(private Service: ApiService, private router: Router) {}
 
@@ -56,8 +61,24 @@ export class AppComponent {
     return this.router.url.startsWith('/createConsumption');
 
   }
+  isEditTreatmentPage(){
+    return this.router.url.startsWith('/edit-treatment');
+  }
+  isCreateTreatmentPage(){
+    return this.router.url.startsWith('/createTreatment');
+  }
+
+  isEditPatientPage(){
+    return this.router.url.startsWith('/edit-patient');
+  }
+  isCreatePatientPage(){
+    return this.router.url.startsWith('/createPatient');
+
+  }
 
   ngOnInit() {
+    this.checkLoginStatus(); 
+
     this.Service.getPosts().subscribe(response => {
       this.users = response;
     }, (err: HttpErrorResponse) => {
@@ -81,9 +102,34 @@ export class AppComponent {
     }, (err: HttpErrorResponse) => {
       console.log(err);
     });
+    
+    this.Service.getTreatment().subscribe(response => {
+      this.treatments = response;
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    });
+    this.Service.getEfficiency().subscribe(response => {
+      this.efficiencys = response;
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    });
+    this.Service.getPatient().subscribe(response => {
+      this.patients = response;
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    });
+
+  }
 
 
-    this.checkLoginStatus(); 
+
+
+  specialistsConsumption(startDate: string, endDate: string){
+    this.Service.getSpecialistsConsumption(startDate, endDate).subscribe(response => {
+      this.SpecialistsConsumption = response;
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    });
   }
 
 
@@ -130,6 +176,10 @@ export class AppComponent {
 
 
 
+
+
+
+
   editConsumption(Id: number) {
     this.router.navigate([`/edit-consumption/${Id}`]);
   }
@@ -145,6 +195,49 @@ export class AppComponent {
 
   createConsumption() {
     this.router.navigate(['/createConsumption']);  
+  }
+
+
+
+
+
+  
+  editTreatment(Id: number) {
+    this.router.navigate([`/edit-treatment/${Id}`]);
+  }
+
+  deleteTreatment(Id: number) {
+    this.Service.deleteTreatment(Id).subscribe(response => {
+      this.treatments = response; 
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    });
+    alert(`Tratamiento ${Id} eliminado`);
+  }
+
+  createTreatment() {
+    this.router.navigate(['/createTreatment']);  
+  }
+
+
+
+
+
+  editPatient(Id: number) {
+    this.router.navigate([`/edit-patient/${Id}`]);
+  }
+
+  deletePatient(Id: number, name: string) {
+    this.Service.deletePatient(Id).subscribe(response => {
+      this.patients = response; 
+    }, (err: HttpErrorResponse) => {
+      console.log(err);
+    });
+    alert(`Paciente ${name} eliminado`);
+  }
+
+  createPatient() {
+    this.router.navigate(['/createPatient']);  
   }
 
 

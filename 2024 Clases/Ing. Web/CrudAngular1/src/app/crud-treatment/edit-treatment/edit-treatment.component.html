@@ -1,0 +1,145 @@
+<div *ngIf="isLoggedIn" class="edit-form-container">
+    <h2>Editar Tratamiento</h2>
+    <form (ngSubmit)="updateTreatment()">
+      <!-- Campo para descripción -->
+      <div class="form-group">
+        <label for="description">Descripción:</label>
+        <input
+          id="description"
+          type="text"
+          [(ngModel)]="editTreatment.description"
+          name="description"
+          required
+          class="form-control"
+        />
+      </div>
+  
+      <!-- Campo para fecha de inicio -->
+      <div class="form-group">
+        <label for="startDate">Fecha de Inicio:</label>
+        <input
+          id="startDate"
+          type="date"
+          [(ngModel)]="editTreatment.startDate"
+          name="startDate"
+          required
+          class="form-control"
+        />
+      </div>
+  
+      <!-- Campo para fecha de fin -->
+      <div class="form-group">
+        <label for="endDate">Fecha de Fin:</label>
+        <input
+          id="endDate"
+          type="date"
+          [(ngModel)]="editTreatment.endDate"
+          name="endDate"
+          required
+          class="form-control"
+        />
+      </div>
+  
+      <!-- Campo para costo estándar -->
+      <div class="form-group">
+        <label for="standardCost">Costo Estándar:</label>
+        <input
+          id="standardCost"
+          type="number"
+          [(ngModel)]="editTreatment.standardCost"
+          name="standardCost"
+          required
+          min="0"
+          class="form-control"
+        />
+      </div>
+  
+      <!-- Campo para consumo estándar -->
+      <div class="form-group">
+        <label for="standardConsumption">Consumo Estándar:</label>
+        <input
+          id="standardConsumption"
+          type="number"
+          [(ngModel)]="editTreatment.standardConsumption"
+          name="standardConsumption"
+          required
+          min="0"
+          class="form-control"
+        />
+      </div>
+
+
+      <div class="form-group">
+        <label for="especialityName">Especialidad:</label>
+        <select
+          id="especialityName"
+          name="especialityName"
+          required
+          class="form-control"
+          [(ngModel)]="editTreatment.specialty"
+          (change)="onEspecialityChange($event)"
+
+        >
+        <option *ngFor="let especiality of allEspecialities" [value]="especiality.Name">
+            {{ especiality.Name }}
+          </option>
+
+        </select>
+      </div>
+
+
+      
+
+            <div class="form-group">
+                <label for="specialistName">Especialista:</label>
+                <select
+                  id="specialistName"
+                  name="specialistName"
+                  required
+                  class="form-control"
+                  [(ngModel)]="editTreatment.specialistName"
+
+                >
+
+                <option *ngFor="let especiality of allSpecialistsOfEspecialityByName" [value]="especiality.Name">
+                    {{ especiality.firstName + ' ' + especiality.lastName }}
+                  </option>
+                </select>
+              </div>
+
+
+      <div class="form-group">
+        <label for="pacientName">Paciente:</label>
+        <select
+          id="pacientName"
+          [(ngModel)]="editTreatment.patientName"
+          name="pacientName"
+          required
+          class="form-control"
+        >
+        <option *ngFor="let patient of allPatients" [value]="patient.Name">
+            {{ patient.firstName + ' ' + patient.lastName }}
+          </option>
+        </select>
+      </div>
+
+      <p>Specialist Name: {{ editTreatment.specialistName }}</p>
+<p>Patient Name: {{ editTreatment.patientName }}</p>
+
+
+
+
+
+      
+
+
+  
+      <!-- Botón para guardar cambios -->
+      <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    </form>
+  </div>
+  
+  <div *ngIf="!isLoggedIn" class="alert alert-warning">
+    <p>No tienes permiso para ver esta página. Por favor, inicia sesión.</p>
+  </div>
+  
