@@ -73,20 +73,31 @@ namespace CRUD.Controllers
                     return NotFound();  // Si no se encuentra el producto, devolver 404
 
                 // Validación de disponibilidad de producto
-                if (product.availableQuantity <= 0)
-                    return BadRequest("Product is not available for consumption.");    
+                if (product.availableQuantity <= 0 || product.availableQuantity < consumptionDTO.UsedQuantity)
+                    return BadRequest("Product is not available for the requested consumption quantity.");
 
-                // Crear el nuevo consumo
-                var consumption = new consumption
+                // Verificar si ya existe un consumo con el mismo tratamiento y producto
+                var existingConsumption = db.consumptions
+                    .FirstOrDefault(c => c.treatment_id == consumptionDTO.TreatmentId && c.product_id == consumptionDTO.ProductId);
+
+                if (existingConsumption != null)
                 {
-                    usedDate = consumptionDTO.UsedDate,
-                    product_id = consumptionDTO.ProductId,
-                    treatment_id = consumptionDTO.TreatmentId,
-                    usedQuantity = consumptionDTO.UsedQuantity
-                };
-
-                db.consumptions.Add(consumption);
-                db.SaveChanges();
+                    // Si existe, actualizar la cantidad utilizada
+                    existingConsumption.usedQuantity += consumptionDTO.UsedQuantity;
+                    existingConsumption.usedDate = DateTime.Now;
+                }
+                else
+                {
+                    // Si no existe, crear un nuevo consumo
+                    var newConsumption = new consumption
+                    {
+                        usedDate = DateTime.Now,
+                        product_id = consumptionDTO.ProductId,
+                        treatment_id = consumptionDTO.TreatmentId,
+                        usedQuantity = consumptionDTO.UsedQuantity
+                    };
+                    db.consumptions.Add(newConsumption);
+                }
 
                 // Reducir la cantidad disponible del producto
                 product.availableQuantity -= consumptionDTO.UsedQuantity;
@@ -95,6 +106,7 @@ namespace CRUD.Controllers
                 return Ok();
             }
         }
+
 
         // PUT: api/consumption/{id}
         public IHttpActionResult Put(int id, [FromBody] ConsumptionWithProduct consumptionDTO)
@@ -112,25 +124,27 @@ namespace CRUD.Controllers
                 // Buscar el producto que coincide con el nombre
                 var product = db.products.FirstOrDefault(p => p.name == consumptionDTO.ProductName);
                 if (product == null)
-                    return NotFound();  // Si no se encuentra el producto, devolver 404
+                    return NotFound();
 
                 // Asignar el ID del producto al consumo
                 consumptionDTO.ProductId = product.product_id;
 
                 // Validación de disponibilidad de producto
-                if (product.availableQuantity <= 0)
-                    return BadRequest("Product is not available for consumption.");
+                if (product.availableQuantity + (existingConsumption.usedQuantity ?? 0) < (consumptionDTO.UsedQuantity ?? 0))
+                    return BadRequest("Insufficient product quantity available.");
+
+                // Calcular la diferencia en la cantidad utilizada
+                int quantityDifference = (existingConsumption.usedQuantity ?? 0) - (consumptionDTO.UsedQuantity ?? 0);
 
                 // Actualizar el consumo
-                existingConsumption.usedDate = consumptionDTO.UsedDate;
+                existingConsumption.usedDate = DateTime.Now;
                 existingConsumption.product_id = consumptionDTO.ProductId;
                 existingConsumption.treatment_id = consumptionDTO.TreatmentId;
                 existingConsumption.usedQuantity = consumptionDTO.UsedQuantity;
 
-                db.SaveChanges();
-
                 // Actualizar la cantidad disponible del producto
-                product.availableQuantity -= consumptionDTO.UsedQuantity;
+                product.availableQuantity += quantityDifference;
+
                 db.SaveChanges();
 
                 return Ok();

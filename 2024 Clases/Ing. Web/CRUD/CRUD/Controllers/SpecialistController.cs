@@ -70,10 +70,16 @@ namespace CRUD.Controllers
         // Método para validar la contraseña
         private bool IsValidPassword(string password)
         {
-            // Expresión regular para validar que la contraseña tenga al menos 8 caracteres,
-            // una letra mayúscula y un número
             var passwordRegex = new Regex(@"^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$");
             return passwordRegex.IsMatch(password);
+        }
+
+        // Método para validar que el especialista sea mayor de 18 años
+        private bool IsOfLegalAge(DateTime birthDate)
+        {
+            var age = DateTime.Today.Year - birthDate.Year;
+            if (birthDate > DateTime.Today.AddYears(-age)) age--;
+            return age >= 18;
         }
 
         // POST: api/specialist
@@ -84,6 +90,9 @@ namespace CRUD.Controllers
 
             if (!IsValidPassword(newSpecialist.password))
                 return BadRequest("La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número.");
+
+            if (!IsOfLegalAge(newSpecialist.birthDate))
+                return BadRequest("El especialista debe ser mayor de 18 años.");
 
             using (DB_CrudLogInEntities db = new DB_CrudLogInEntities(connectionString))
             {
@@ -105,6 +114,9 @@ namespace CRUD.Controllers
 
             if (!IsValidPassword(specialist.Password))
                 return BadRequest("La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número.");
+
+            if (!IsOfLegalAge(specialist.BirthDate))
+                return BadRequest("El especialista debe ser mayor de 18 años.");
 
             using (DB_CrudLogInEntities db = new DB_CrudLogInEntities(connectionString))
             {
@@ -149,5 +161,73 @@ namespace CRUD.Controllers
                 return Ok(existingSpecialist);
             }
         }
+
+
+
+
+        [HttpGet]
+        [Route("api/specialist/GetSpecialistsOfEspeciality/{id}")]
+        public IHttpActionResult GetSpecialistsOfEspeciality(int id)
+        {
+            using (DB_CrudLogInEntities db = new DB_CrudLogInEntities(connectionString))
+            {
+                // Obtener especialistas filtrados por especialidad
+                var specialists = db.specialists
+                    .Where(s => s.especialityId == id)
+                    .Select(s => new
+                    {
+                        s.id,
+                        s.firstName,
+                        s.lastName,
+                        s.especialityId,
+                        SpecialityName = s.especiality.name
+                    })
+                    .ToList();
+
+                // Verificar si hay resultados
+                if (specialists == null || !specialists.Any())
+                    return NotFound();
+
+                return Ok(specialists);
+            }
+        }
+
+
+
+        [HttpGet]
+        [Route("api/specialist/GetSpecialistsOfEspecialityByName/{name}")]
+        public IHttpActionResult GetSpecialistsOfEspecialityByName(string name)
+        {
+            using (DB_CrudLogInEntities db = new DB_CrudLogInEntities(connectionString))
+            {
+                var speciality = db.especialities.FirstOrDefault(s => s.name.Equals(name, StringComparison.OrdinalIgnoreCase));
+
+                if (speciality == null)
+                {
+                    return NotFound();  
+                }
+
+                var specialists = db.specialists
+                    .Where(s => s.especialityId == speciality.id)
+                    .Select(s => new
+                    {
+                        s.id,
+                        s.firstName,
+                        s.lastName,
+                        s.especialityId,
+                        SpecialityName = speciality.name
+                    })
+                    .ToList();
+
+                if (specialists == null || !specialists.Any())
+                    return NotFound();  
+
+                return Ok(specialists); 
+            }
+        }
+
+
+
+
     }
 }

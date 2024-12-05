@@ -23,7 +23,8 @@ namespace CRUD.Controllers
                                    {
                                        Id = especiality.id,
                                        Name = especiality.name,
-                                       Procedures = especiality.procedures
+                                       Procedures = especiality.procedures,
+                                       Budget = especiality.budget
                                    };
 
                 return especialities.ToList();

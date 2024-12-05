@@ -86,10 +86,22 @@ namespace CRUD.Controllers
             return !string.IsNullOrWhiteSpace(name) && name.Length >= 2;
         }
 
+        // Método para verificar si el usuario es mayor de 18 años
+        private bool IsAdult(DateTime birthDate)
+        {
+            var today = DateTime.Today;
+            var age = today.Year - birthDate.Year;
+            if (birthDate > today.AddYears(-age)) age--;
+            return age >= 18;
+        }
+
         public IHttpActionResult Post([FromBody] user newUser)
         {
             if (!ModelState.IsValid || newUser == null)
                 return BadRequest("Datos de usuario inválidos.");
+
+            if (!IsAdult(newUser.birthDate))
+                return BadRequest("El usuario debe ser mayor de 18 años.");
 
             if (!IsValidPassword(newUser.password))
                 return BadRequest("La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número.");
@@ -113,6 +125,9 @@ namespace CRUD.Controllers
         {
             if (!ModelState.IsValid || updatedUser == null)
                 return BadRequest("Datos de usuario inválidos.");
+
+            if (!IsAdult(updatedUser.birthDate))
+                return BadRequest("El usuario debe ser mayor de 18 años.");
 
             if (!IsValidPassword(updatedUser.password))
                 return BadRequest("La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número.");
